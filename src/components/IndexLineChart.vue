@@ -23,7 +23,7 @@ export default {
     getIndexData() {
       this.$http({
         method: 'get',
-        url: 'http://localhost:9999/index-value-data'
+        url: 'http://localhost:9999/index-data'
       }).then(res => {
         console.log(res)
         this.index_data = res.data
