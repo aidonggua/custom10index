@@ -77,7 +77,7 @@ export default {
     getM10IndexComposition() {
       this.$http({
         method: 'get',
-        url: 'http://localhost:9999/daily-stock?index_code=m10'
+        url: 'http://localhost:7010/daily-stock?index_code=m10'
       }).then(res => {
         console.log(res)
         this.m10_index_composition = res.data
@@ -86,7 +86,7 @@ export default {
     getL5IndexComposition() {
       this.$http({
         method: 'get',
-        url: 'http://localhost:9999/daily-stock?index_code=l5'
+        url: 'http://localhost:7010/daily-stock?index_code=l5'
       }).then(res => {
         console.log(res)
         this.l5_index_composition = res.data
