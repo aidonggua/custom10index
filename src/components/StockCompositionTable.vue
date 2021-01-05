@@ -45,7 +45,7 @@ export default {
     getIndexComposition() {
       this.$http({
         method: 'get',
-        url: 'http://localhost:9999/daily-stock'
+        url: 'http://81.68.206.52:7010/daily-stock'
       }).then(res => {
         console.log(res)
         this.index_composition = res.data
