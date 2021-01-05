@@ -5,6 +5,7 @@
       <div id="m10-value-chart" style="width: 600px;height:400px;"></div>
     </div>
 
+
     <div class="Echarts">
       <div id="m10-increase-chart" style="width: 600px;height:400px;"></div>
     </div>
@@ -38,14 +39,14 @@ export default {
       // 指定图表的配置项和数据
       const m10ValueChartOption = {
         title: {
-          text: 'm10指数走势',
+          text: '指数走势',
           top: '20px'
         },
         tooltip: {
           trigger: 'axis',
         },
         legend: {
-          data: ['上证指数', '深圳成指', '创业板指', '沪深300', 'm10指数']
+          data: ['上证指数', '深圳成指', '创业板指', '沪深300', 'm10指数', 'l5指数']
         },
         grid: {
           left: '3%',
@@ -91,20 +92,25 @@ export default {
             name: 'm10指数',
             type: 'line',
             data: this.index_data['m10']
+          },
+          {
+            name: 'l5指数',
+            type: 'line',
+            data: this.index_data['l5']
           }
         ]
       };
 
       const m10IncreaseChartOption = {
         title: {
-          text: 'm10指数涨幅走势',
+          text: '指数涨幅走势',
           top: '20px'
         },
         tooltip: {
           trigger: 'axis',
         },
         legend: {
-          data: ['上证指数', '深圳成指', '创业板指', '沪深300', 'm10指数']
+          data: ['上证指数', '深圳成指', '创业板指', '沪深300', 'm10指数', 'l5指数']
         },
         grid: {
           left: '3%',
@@ -150,6 +156,11 @@ export default {
             name: 'm10指数',
             type: 'line',
             data: this.index_data['m10_increase']
+          },
+          {
+            name: 'l5指数',
+            type: 'line',
+            data: this.index_data['l5_increase']
           }
         ]
       };
