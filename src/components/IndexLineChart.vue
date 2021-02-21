@@ -1,15 +1,24 @@
 <template>
-  <div>
-
-    <div class="Echarts">
-      <div id="m10-value-chart" style="width: 600px;height:400px;"></div>
-    </div>
-
-
-    <div class="Echarts">
-      <div id="m10-increase-chart" style="width: 600px;height:400px;"></div>
-    </div>
-  </div>
+  <el-row>
+    <el-col :span="12">
+      <el-col :span="22" :offset="1">
+        <el-card class="box-card">
+          <div class="Echarts">
+            <div id="m10-value-chart" style="width: 580px;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-col>
+    <el-col :span="12">
+      <el-col :span="22" :offset="1">
+        <el-card class="box-card">
+          <div class="Echarts">
+            <div id="m10-increase-chart" style="width: 580px;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -24,7 +33,8 @@ export default {
     getIndexData() {
       this.$http({
         method: 'get',
-        url: 'http://81.68.206.52:7010/index-data'
+        // url: 'http://81.68.206.52:7010/index-data'
+        url: 'http://localhost:7010/index-data'
       }).then(res => {
         console.log(res)
         this.index_data = res.data
@@ -178,10 +188,9 @@ export default {
 </script>
 
 <style scoped>
-
-div {
-  display: inline-block;
-  margin: auto auto;
+.el-row {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 </style>

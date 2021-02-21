@@ -1,19 +1,52 @@
 <template>
   <div id="app">
-    <index-line-chart/>
-
-    <stock-composition-table/>
+    <div>
+      <el-menu :default-active="activeIndex" class="el-menu-demo"
+               mode="horizontal"
+               @select="handleSelect"
+               background-color="#CC3300"
+               text-color="white"
+               active-text-color="yellow">
+        <el-menu-item index="1">
+          <router-link to='/index-battle'>
+            指数battle
+          </router-link>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <router-link to='/financial-report-battle'>
+            财报battle
+          </router-link>
+        </el-menu-item>
+      </el-menu>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import IndexLineChart from './components/IndexLineChart'
-import StockCompositionTable from './components/StockCompositionTable'
+import VueRouter from "vue-router"
+import IndexBattle from "@/components/IndexBattle";
+import FinancialReportBattle from "@/components/FinancialReportBattle";
+
+const router = new VueRouter({
+  routes: [
+    {path: '/index-battle', component: IndexBattle},
+    {path: '/financial-report-battle', component: FinancialReportBattle}
+  ]
+})
 
 export default {
   name: 'App',
-  components: {
-    IndexLineChart, StockCompositionTable
+  router,
+  data() {
+    return {
+      activeIndex: '1'
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    }
   }
 }
 </script>
@@ -24,7 +57,18 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: auto auto;
+}
+
+body {
+  margin: 0;
+}
+
+.router-link-active {
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
 }
 </style>
