@@ -48,31 +48,50 @@
 
     <el-divider></el-divider>
 
-    <el-card class="compare-card">
-      <el-row>
-        <el-col :span="8">
-          <el-card>
-            <div class="Echarts">
-              <div id="roe-cmp-chart" style="width: 580px;height:300px;"></div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card>
-            <div class="Echarts">
-              <div id="chart2" style="width: 580px;height:300px;"></div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card>
-            <div class="Echarts">
-              <div id="chart3" style="width: 580px;height:300px;"></div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-card>
+    <el-row>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="roe-cmp-chart" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="chart2" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="chart3" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="chart4" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="chart5" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="chart6" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -81,9 +100,58 @@ export default {
   name: "FinancialReportBattle",
   data() {
     return {
+      stock1: "沪电股份",
+      stock2: "深南电路",
       stockLeft: "",
       stockRight: "",
-      stockList: [{name: "沪电股份", code: "abc"}, {name: "太阳纸业", code: "bcd"}]
+      stockList: [{name: "沪电股份", code: "abc"}, {name: "深南电路", code: "bcd"}],
+      dateList: ['2016年', '2017年', '2018年', '2019年', '2020年'],
+      roeList1: [20, 30, 40, 50, 60],
+      roeList2: [50, 40, 30, 20, 10],
+    }
+  },
+  mounted() {
+    this.$echarts.init(document.getElementById('roe-cmp-chart')).setOption(this.generateOption('净资产收益率'));
+    this.$echarts.init(document.getElementById('chart2')).setOption(this.generateOption('净资产收益率'));
+    this.$echarts.init(document.getElementById('chart3')).setOption(this.generateOption('净资产收益率'));
+    this.$echarts.init(document.getElementById('chart4')).setOption(this.generateOption('净资产收益率'));
+    this.$echarts.init(document.getElementById('chart5')).setOption(this.generateOption('净资产收益率'));
+    this.$echarts.init(document.getElementById('chart6')).setOption(this.generateOption('净资产收益率'));
+  },
+  methods: {
+    generateOption(chartName) {
+      // 指定图表的配置项和数据
+      return {
+        title: {
+          text: chartName,
+        },
+        tooltip: {
+          trigger: 'axis',
+        },
+        legend: {
+          data: [this.stock1, this.stock2]
+        },
+        color: ['green', '#CC3300'],
+        xAxis: {
+          type: 'category',
+          data: this.dateList
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            name: this.stock1,
+            type: 'bar',
+            data: this.roeList1
+          },
+          {
+            name: this.stock2,
+            type: 'bar',
+            data: this.roeList2
+          },
+        ]
+      };
     }
   }
 }
@@ -94,12 +162,6 @@ export default {
   margin: 20px auto 0 auto;
   width: 80%;
   height: 40px;
-}
-
-.compare-card {
-  width: 90%;
-  margin: 0 auto 0 auto;
-  height: 600px;
 }
 
 .stock-compare-blood {
@@ -120,7 +182,7 @@ export default {
 
 .right-stock-compare-blood {
   width: 60%;
-  background: red;
+  background: #CC3300;
   -webkit-border-top-right-radius: 50px;
   -webkit-border-bottom-right-radius: 50px;
 }
