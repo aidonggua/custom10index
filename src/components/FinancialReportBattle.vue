@@ -49,7 +49,29 @@
     <el-divider></el-divider>
 
     <el-card class="compare-card">
-
+      <el-row>
+        <el-col :span="8">
+          <el-card>
+            <div class="Echarts">
+              <div id="roe-cmp-chart" style="width: 580px;height:300px;"></div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="Echarts">
+              <div id="chart2" style="width: 580px;height:300px;"></div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="Echarts">
+              <div id="chart3" style="width: 580px;height:300px;"></div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-card>
   </div>
 </template>
