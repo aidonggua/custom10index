@@ -33,8 +33,8 @@ export default {
     getIndexData() {
       this.$http({
         method: 'get',
-        // url: 'http://81.68.206.52:7010/index-data'
-        url: 'http://localhost:7010/index-data'
+        url: 'http://81.68.206.52:7010/index-data'
+        // url: 'http://localhost:7010/index-data'
       }).then(res => {
         console.log(res)
         this.index_data = res.data
