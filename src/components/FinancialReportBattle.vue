@@ -59,35 +59,35 @@
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="chart2" style="width: 90%;height:300px;"></div>
+            <div id="eps-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="chart3" style="width: 90%;height:300px;"></div>
+            <div id="debt-ratio-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="chart4" style="width: 90%;height:300px;"></div>
+            <div id="gross-margin-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="chart5" style="width: 90%;height:300px;"></div>
+            <div id="kf-net-profit-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="chart6" style="width: 90%;height:300px;"></div>
+            <div id="total-operating-income-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
@@ -112,11 +112,11 @@ export default {
   },
   mounted() {
     this.$echarts.init(document.getElementById('roe-cmp-chart')).setOption(this.generateOption('净资产收益率'));
-    this.$echarts.init(document.getElementById('chart2')).setOption(this.generateOption('净资产收益率'));
-    this.$echarts.init(document.getElementById('chart3')).setOption(this.generateOption('净资产收益率'));
-    this.$echarts.init(document.getElementById('chart4')).setOption(this.generateOption('净资产收益率'));
-    this.$echarts.init(document.getElementById('chart5')).setOption(this.generateOption('净资产收益率'));
-    this.$echarts.init(document.getElementById('chart6')).setOption(this.generateOption('净资产收益率'));
+    this.$echarts.init(document.getElementById('debt-ratio-chart')).setOption(this.generateOption('负债率'));
+    this.$echarts.init(document.getElementById('eps-chart')).setOption(this.generateOption('每股收益'));
+    this.$echarts.init(document.getElementById('gross-margin-chart')).setOption(this.generateOption('毛利率'));
+    this.$echarts.init(document.getElementById('kf-net-profit-chart')).setOption(this.generateOption('扣非净利润'));
+    this.$echarts.init(document.getElementById('total-operating-income-chart')).setOption(this.generateOption('营业总收入'));
   },
   methods: {
     generateOption(chartName) {
@@ -124,6 +124,7 @@ export default {
       return {
         title: {
           text: chartName,
+          top: 20
         },
         tooltip: {
           trigger: 'axis',
