@@ -105,9 +105,9 @@ export default {
       stockLeft: "",
       stockRight: "",
       stockList: [{name: "沪电股份", code: "abc"}, {name: "深南电路", code: "bcd"}],
-      dateList: ['2016年', '2017年', '2018年', '2019年', '2020年'],
-      roeList1: [20, 30, 40, 50, 60],
-      roeList2: [50, 40, 30, 20, 10],
+      dateList: ['2015年', '2016年', '2017年', '2018年', '2019年', '2020年'],
+      roeList1: [5, 10, 20, 30, 40, 50],
+      roeList2: [5, 20, 30, 40, 10, 40],
     }
   },
   mounted() {
@@ -129,10 +129,16 @@ export default {
         tooltip: {
           trigger: 'axis',
         },
+        toolbox: {
+          feature: {
+            dataView: {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+          }
+        },
         legend: {
           data: [this.stock1, this.stock2]
         },
-        color: ['green', '#CC3300'],
+        color: ['#4359b9', '#81c462'],
         xAxis: {
           type: 'category',
           data: this.dateList
@@ -143,13 +149,13 @@ export default {
         series: [
           {
             name: this.stock1,
+            data: this.roeList1,
             type: 'bar',
-            data: this.roeList1
           },
           {
             name: this.stock2,
+            data: this.roeList2,
             type: 'bar',
-            data: this.roeList2
           },
         ]
       };
