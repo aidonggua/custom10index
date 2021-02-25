@@ -185,7 +185,8 @@ export default {
     handleBattle() {
       this.$http({
         method: 'get',
-        url: 'http://localhost:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
+        // url: 'http://localhost:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
+        url: 'http://81.68.206.52:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
       }).then(res => {
         console.log(res)
         const frData = res.data
