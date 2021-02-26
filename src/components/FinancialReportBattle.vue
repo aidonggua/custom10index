@@ -47,16 +47,16 @@
           <el-button @click="handleBattle">Battle</el-button>
         </el-col>
 
-        <el-col :span="10" style="padding: 0">
-          <div id="battle-result-chart">
-            <div class="stock-compare-blood left-stock-compare-blood">
-              40分
-            </div>
-            <div class="stock-compare-blood right-stock-compare-blood">
-              60分
-            </div>
-          </div>
-        </el-col>
+<!--        <el-col :span="10" style="padding: 0">-->
+<!--          <div id="battle-result-chart">-->
+<!--            <div class="stock-compare-blood left-stock-compare-blood">-->
+<!--              40分-->
+<!--            </div>-->
+<!--            <div class="stock-compare-blood right-stock-compare-blood">-->
+<!--              60分-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </el-col>-->
       </el-row>
     </div>
 
@@ -116,7 +116,7 @@ export default {
   data() {
     return {
       stockCode: {1: "", 2: "", 3: ""},
-      stockList: {sz002463: "沪电股份", sz002916: "深南电路"},
+      stockList: {sz002463: "沪电股份", sz002916: "深南电路", sz002938: "鹏鼎控股"},
       dateList: ['12年', '13年', '14年', '15年', '16年', '17年', '18年', '19年'],
       stockData: [],
       roe: {1: [], 2: [], 3: []},
@@ -142,14 +142,13 @@ export default {
         },
         toolbox: {
           feature: {
-            dataView: {show: true, readOnly: false},
             magicType: {show: true, type: ['line', 'bar']},
           }
         },
         legend: {
           data: [this.stockList[this.stockCode[1]], this.stockList[this.stockCode[2]], this.stockList[this.stockCode[3]],]
         },
-        color: ['#4359b9', '#81c462', '#aaaa62'],
+        color: ['#4359b9', '#81c462', '#ecec4d'],
         xAxis: {
           type: 'category',
           data: this.dateList
@@ -160,32 +159,32 @@ export default {
         series: [
           {
             name: this.stockList[this.stockCode[1]],
-            data: data[1].reverse(),
+            data: data[1],
             type: 'bar',
           },
           {
             name: this.stockList[this.stockCode[1]],
-            data: data[1].reverse(),
+            data: data[1],
             type: 'line',
           },
           {
             name: this.stockList[this.stockCode[2]],
-            data: data[2].reverse(),
+            data: data[2],
             type: 'bar',
           },
           {
             name: this.stockList[this.stockCode[2]],
-            data: data[2].reverse(),
+            data: data[2],
             type: 'line',
           },
           {
             name: this.stockList[this.stockCode[3]],
-            data: data[3].reverse(),
+            data: data[3],
             type: 'bar',
           },
           {
             name: this.stockList[this.stockCode[3]],
-            data: data[3].reverse(),
+            data: data[3],
             type: 'line',
           },
         ]
@@ -201,7 +200,7 @@ export default {
         const frData = res.data
 
         let stockFrDataList1 = frData[this.stockCode[1]]
-        for (let item of stockFrDataList1) {
+        for (let item of stockFrDataList1.reverse()) {
           this.roe[1].push(item.roe)
           this.eps[1].push(item.eps)
           this.grossProfit[1].push(item.gross_profit)
@@ -211,7 +210,7 @@ export default {
         }
 
         let stockFrDataList2 = frData[this.stockCode[2]]
-        for (let item of stockFrDataList2) {
+        for (let item of stockFrDataList2.reverse()) {
           this.roe[2].push(item.roe)
           this.eps[2].push(item.eps)
           this.grossProfit[2].push(item.gross_profit)
@@ -221,7 +220,7 @@ export default {
         }
 
         let stockFrDataList3 = frData[this.stockCode[3]]
-        for (let item of stockFrDataList3) {
+        for (let item of stockFrDataList3.reverse()) {
           this.roe[3].push(item.roe)
           this.eps[3].push(item.eps)
           this.grossProfit[3].push(item.gross_profit)
