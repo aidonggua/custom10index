@@ -3,12 +3,12 @@
     <div class="search-card">
       <el-row>
         <el-col :span="3">
-          <el-select v-model="stockLeft" placeholder="股票1">
+          <el-select v-model="stockCode[1]" placeholder="股票1">
             <el-option
-                v-for="item in stockList"
-                :key="item.value"
-                :label="item.name"
-                :value="item.code">
+                v-for="item in Object.keys(stockList)"
+                :key="item"
+                :label="stockList[item]"
+                :value="item">
             </el-option>
           </el-select>
         </el-col>
@@ -18,12 +18,12 @@
           </div>
         </el-col>
         <el-col :span="3">
-          <el-select v-model="stockRight" placeholder="股票2">
+          <el-select v-model="stockCode[2]" placeholder="股票2">
             <el-option
-                v-for="item in stockList"
-                :key="item.value"
-                :label="item.name"
-                :value="item.code">
+                v-for="item in Object.keys(stockList)"
+                :key="item"
+                :label="stockList[item]"
+                :value="item">
             </el-option>
           </el-select>
         </el-col>
@@ -33,12 +33,12 @@
           </div>
         </el-col>
         <el-col :span="3">
-          <el-select v-model="stockRight" placeholder="股票2">
+          <el-select v-model="stockCode[3]" placeholder="股票3">
             <el-option
-                v-for="item in stockList"
-                :key="item.value"
-                :label="item.name"
-                :value="item.code">
+                v-for="item in Object.keys(stockList)"
+                :key="item"
+                :label="stockList[item]"
+                :value="item">
             </el-option>
           </el-select>
         </el-col>
@@ -115,33 +115,22 @@ export default {
   name: "FinancialReportBattle",
   data() {
     return {
-      stock1: "沪电股份",
-      stock2: "深南电路",
-      stockLeft: "",
-      stockRight: "",
-      stockList: [{name: "沪电股份", code: "sz002463"}, {name: "深南电路", code: "sz002916"}],
+      stockCode: {1: "", 2: "", 3: ""},
+      stockList: {sz002463: "沪电股份", sz002916: "深南电路"},
       dateList: ['12年', '13年', '14年', '15年', '16年', '17年', '18年', '19年'],
       stockData: [],
-      roe1: [],
-      roe2: [],
-      eps1: [],
-      eps2: [],
-      totalOperatingIncome1: [],
-      totalOperatingIncome2: [],
-      deductionOfNonNetProfit1: [],
-      deductionOfNonNetProfit2: [],
-      grossProfit1: [],
-      grossProfit2: [],
-      assetLiabilityRatio1: [],
-      assetLiabilityRatio2: [],
-      roeList1: [5, 10, 20, 30, 40, 50],
-      roeList2: [5, 20, 30, 40, 10, 40],
+      roe: {1: [], 2: [], 3: []},
+      eps: {1: [], 2: [], 3: []},
+      totalOperatingIncome: {1: [], 2: [], 3: []},
+      deductionOfNonNetProfit: {1: [], 2: [], 3: []},
+      grossProfit: {1: [], 2: [], 3: []},
+      assetLiabilityRatio: {1: [], 2: [], 3: []},
     }
   },
   mounted() {
   },
   methods: {
-    generateOption(chartName, data1, data2) {
+    generateOption(chartName, data) {
       // 指定图表的配置项和数据
       return {
         title: {
@@ -158,9 +147,9 @@ export default {
           }
         },
         legend: {
-          data: [this.stock1, this.stock2]
+          data: [this.stockList[this.stockCode[1]], this.stockList[this.stockCode[2]], this.stockList[this.stockCode[3]],]
         },
-        color: ['#4359b9', '#81c462'],
+        color: ['#4359b9', '#81c462', '#aaaa62'],
         xAxis: {
           type: 'category',
           data: this.dateList
@@ -170,13 +159,18 @@ export default {
         },
         series: [
           {
-            name: this.stock1,
-            data: data1,
+            name: this.stockList[this.stockCode[1]],
+            data: data[1].reverse(),
             type: 'bar',
           },
           {
-            name: this.stock2,
-            data: data2,
+            name: this.stockList[this.stockCode[2]],
+            data: data[2].reverse(),
+            type: 'bar',
+          },
+          {
+            name: this.stockList[this.stockCode[3]],
+            data: data[3].reverse(),
             type: 'bar',
           },
         ]
@@ -186,49 +180,48 @@ export default {
       this.$http({
         method: 'get',
         // url: 'http://localhost:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
-        url: 'http://81.68.206.52:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
+        url: 'http://81.68.206.52:7010/fr?stocks=' + this.stockCode[1] + ',' + this.stockCode[2] + ',' + this.stockCode[3]
       }).then(res => {
         console.log(res)
         const frData = res.data
 
-        this.roe1 = []
-        this.eps1 = []
-        this.grossProfit1 = []
-        this.assetLiabilityRatio1 = []
-        this.deductionOfNonNetProfit1 = []
-        this.totalOperatingIncome1 = []
-        let stockLeftFrDataList = frData[this.stockLeft]
-        for (let item of stockLeftFrDataList) {
-          this.roe1.push(item.roe)
-          this.eps1.push(item.eps)
-          this.grossProfit1.push(item.gross_profit)
-          this.assetLiabilityRatio1.push(item.asset_liability_ratio)
-          this.deductionOfNonNetProfit1.push(item.deduction_of_non_net_profit)
-          this.totalOperatingIncome1.push(item.total_operating_income)
+        let stockFrDataList1 = frData[this.stockCode[1]]
+        for (let item of stockFrDataList1) {
+          this.roe[1].push(item.roe)
+          this.eps[1].push(item.eps)
+          this.grossProfit[1].push(item.gross_profit)
+          this.assetLiabilityRatio[1].push(item.asset_liability_ratio)
+          this.deductionOfNonNetProfit[1].push(item.deduction_of_non_net_profit)
+          this.totalOperatingIncome[1].push(item.total_operating_income)
         }
 
-        this.roe2 = []
-        this.eps2 = []
-        this.grossProfit2 = []
-        this.assetLiabilityRatio2 = []
-        this.deductionOfNonNetProfit2 = []
-        this.totalOperatingIncome2 = []
-        stockLeftFrDataList = frData[this.stockRight]
-        for (let item of stockLeftFrDataList) {
-          this.roe2.push(item.roe)
-          this.eps2.push(item.eps)
-          this.grossProfit2.push(item.gross_profit)
-          this.assetLiabilityRatio2.push(item.asset_liability_ratio)
-          this.deductionOfNonNetProfit2.push(item.deduction_of_non_net_profit)
-          this.totalOperatingIncome2.push(item.total_operating_income)
+        let stockFrDataList2 = frData[this.stockCode[2]]
+        for (let item of stockFrDataList2) {
+          this.roe[2].push(item.roe)
+          this.eps[2].push(item.eps)
+          this.grossProfit[2].push(item.gross_profit)
+          this.assetLiabilityRatio[2].push(item.asset_liability_ratio)
+          this.deductionOfNonNetProfit[2].push(item.deduction_of_non_net_profit)
+          this.totalOperatingIncome[2].push(item.total_operating_income)
         }
 
-        this.$echarts.init(document.getElementById('roe-cmp-chart')).setOption(this.generateOption('净资产收益率', this.roe1.reverse(), this.roe2.reverse()));
-        this.$echarts.init(document.getElementById('debt-ratio-chart')).setOption(this.generateOption('负债率', this.assetLiabilityRatio2.reverse(), this.assetLiabilityRatio2.reverse()));
-        this.$echarts.init(document.getElementById('eps-chart')).setOption(this.generateOption('每股收益', this.eps1.reverse(), this.eps2.reverse()));
-        this.$echarts.init(document.getElementById('gross-margin-chart')).setOption(this.generateOption('毛利率', this.grossProfit1.reverse(), this.grossProfit2.reverse()));
-        this.$echarts.init(document.getElementById('kf-net-profit-chart')).setOption(this.generateOption('扣非净利润', this.deductionOfNonNetProfit1.reverse(), this.deductionOfNonNetProfit2.reverse()));
-        this.$echarts.init(document.getElementById('total-operating-income-chart')).setOption(this.generateOption('营业总收入', this.totalOperatingIncome1.reverse(), this.totalOperatingIncome2.reverse()));
+        let stockFrDataList3 = frData[this.stockCode[3]]
+        for (let item of stockFrDataList3) {
+          this.roe[3].push(item.roe)
+          this.eps[3].push(item.eps)
+          this.grossProfit[3].push(item.gross_profit)
+          this.assetLiabilityRatio[3].push(item.asset_liability_ratio)
+          this.deductionOfNonNetProfit[3].push(item.deduction_of_non_net_profit)
+          this.totalOperatingIncome[3].push(item.total_operating_income)
+        }
+
+
+        this.$echarts.init(document.getElementById('roe-cmp-chart')).setOption(this.generateOption('净资产收益率', this.roe));
+        this.$echarts.init(document.getElementById('debt-ratio-chart')).setOption(this.generateOption('负债率', this.assetLiabilityRatio));
+        this.$echarts.init(document.getElementById('eps-chart')).setOption(this.generateOption('每股收益', this.eps));
+        this.$echarts.init(document.getElementById('gross-margin-chart')).setOption(this.generateOption('毛利率', this.grossProfit));
+        this.$echarts.init(document.getElementById('kf-net-profit-chart')).setOption(this.generateOption('扣非净利润', this.deductionOfNonNetProfit));
+        this.$echarts.init(document.getElementById('total-operating-income-chart')).setOption(this.generateOption('营业总收入', this.totalOperatingIncome));
       })
     }
   }
