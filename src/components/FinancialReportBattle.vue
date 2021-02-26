@@ -164,14 +164,29 @@ export default {
             type: 'bar',
           },
           {
+            name: this.stockList[this.stockCode[1]],
+            data: data[1].reverse(),
+            type: 'line',
+          },
+          {
             name: this.stockList[this.stockCode[2]],
             data: data[2].reverse(),
             type: 'bar',
           },
           {
+            name: this.stockList[this.stockCode[2]],
+            data: data[2].reverse(),
+            type: 'line',
+          },
+          {
             name: this.stockList[this.stockCode[3]],
             data: data[3].reverse(),
             type: 'bar',
+          },
+          {
+            name: this.stockList[this.stockCode[3]],
+            data: data[3].reverse(),
+            type: 'line',
           },
         ]
       };
