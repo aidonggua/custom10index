@@ -47,16 +47,16 @@
           <el-button @click="handleBattle">Battle</el-button>
         </el-col>
 
-<!--        <el-col :span="10" style="padding: 0">-->
-<!--          <div id="battle-result-chart">-->
-<!--            <div class="stock-compare-blood left-stock-compare-blood">-->
-<!--              40分-->
-<!--            </div>-->
-<!--            <div class="stock-compare-blood right-stock-compare-blood">-->
-<!--              60分-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </el-col>-->
+        <!--        <el-col :span="10" style="padding: 0">-->
+        <!--          <div id="battle-result-chart">-->
+        <!--            <div class="stock-compare-blood left-stock-compare-blood">-->
+        <!--              40分-->
+        <!--            </div>-->
+        <!--            <div class="stock-compare-blood right-stock-compare-blood">-->
+        <!--              60分-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </el-col>-->
       </el-row>
     </div>
 
@@ -116,7 +116,7 @@ export default {
   data() {
     return {
       stockCode: {1: "", 2: "", 3: ""},
-      stockList: {sz002463: "沪电股份", sz002916: "深南电路", sz002938: "鹏鼎控股"},
+      stockList: {sz002463: "沪电股份", sz002916: "深南电路", sz002938: "鹏鼎控股", sz002078: "太阳纸业", sh603733: "仙鹤股份"},
       dateList: ['12年', '13年', '14年', '15年', '16年', '17年', '18年', '19年'],
       stockData: [],
       roe: {1: [], 2: [], 3: []},
