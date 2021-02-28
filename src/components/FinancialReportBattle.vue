@@ -117,6 +117,7 @@ export default {
     return {
       stockCode: {1: "", 2: "", 3: ""},
       stockList: {
+        unknown: "==请选择==",
         sz002463: "沪电股份",
         sz002916: "深南电路",
         sz002938: "鹏鼎控股",
@@ -223,16 +224,31 @@ export default {
       return option
     },
     handleBattle() {
+      let param = '';
+      if (this.stockCode[1] !== undefined && this.stockCode[1] !== 'unknown' && this.stockCode[1] !== '') {
+        param += ("," + this.stockCode[1])
+      }
+      if (this.stockCode[2] !== undefined && this.stockCode[2] !== 'unknown' && this.stockCode[2] !== '') {
+        param += ("," + this.stockCode[2])
+      }
+      if (this.stockCode[3] !== undefined && this.stockCode[3] !== 'unknown' && this.stockCode[3] !== '') {
+        param += ("," + this.stockCode[3])
+      }
+      if (param === '') {
+        return
+      }
+
       this.$http({
         method: 'get',
         // url: 'http://localhost:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
-        url: 'http://81.68.206.52:7010/fr?stocks=' + this.stockCode[1] + ',' + this.stockCode[2] + ',' + this.stockCode[3]
+        url: 'http://81.68.206.52:7010/fr?stocks=' + param
       }).then(res => {
         console.log(res)
         const frData = res.data
         this.clearData()
 
         let stockFrDataList1 = frData[this.stockCode[1]]
+        console.log(stockFrDataList1)
         if (stockFrDataList1 !== undefined && stockFrDataList1.length !== 0) {
           this.appendData(stockFrDataList1)
           for (let item of stockFrDataList1.reverse()) {
@@ -246,6 +262,7 @@ export default {
         }
 
         let stockFrDataList2 = frData[this.stockCode[2]]
+        console.log(stockFrDataList2)
         if (stockFrDataList2 !== undefined && stockFrDataList2.length !== 0) {
           this.appendData(stockFrDataList2)
           for (let item of stockFrDataList2.reverse()) {
@@ -277,7 +294,7 @@ export default {
         this.grossMarginChart.setOption(this.generateOption('毛利率', this.grossProfit))
         this.kfNetProfitChart.setOption(this.generateOption('扣非净利润', this.deductionOfNonNetProfit))
         this.totalOperatingIncomeChart.setOption(this.generateOption('营业总收入', this.totalOperatingIncome))
-      })
+      });
     },
     appendData(array) {
       while (array.length < 8) {
