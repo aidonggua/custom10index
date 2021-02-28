@@ -248,7 +248,6 @@ export default {
         this.clearData()
 
         let stockFrDataList1 = frData[this.stockCode[1]]
-        console.log(stockFrDataList1)
         if (stockFrDataList1 !== undefined && stockFrDataList1.length !== 0) {
           this.appendData(stockFrDataList1)
           for (let item of stockFrDataList1.reverse()) {
@@ -262,8 +261,7 @@ export default {
         }
 
         let stockFrDataList2 = frData[this.stockCode[2]]
-        console.log(stockFrDataList2)
-        if (stockFrDataList2 !== undefined && stockFrDataList2.length !== 0) {
+        if (stockFrDataList2 !== undefined && stockFrDataList2.length !== 0 && this.stockCode[2] !== this.stockCode[1]) {
           this.appendData(stockFrDataList2)
           for (let item of stockFrDataList2.reverse()) {
             this.roe[2].push(item.roe)
@@ -276,7 +274,7 @@ export default {
         }
 
         let stockFrDataList3 = frData[this.stockCode[3]]
-        if (stockFrDataList3 !== undefined && stockFrDataList3.length !== 0) {
+        if (stockFrDataList3 !== undefined && stockFrDataList3.length !== 0 && this.stockCode[3] !== this.stockCode[1] && this.stockCode[3] !== this.stockCode[2]) {
           this.appendData(stockFrDataList3)
           for (let item of stockFrDataList3.reverse()) {
             this.roe[3].push(item.roe)
