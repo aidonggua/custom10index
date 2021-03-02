@@ -5,10 +5,10 @@
         <el-col :span="3">
           <el-select v-model="stockCode[1]" placeholder="股票1">
             <el-option
-                v-for="item in Object.keys(stockList)"
-                :key="item"
-                :label="stockList[item]"
-                :value="item">
+                v-for="item in stockList"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
             </el-option>
           </el-select>
         </el-col>
@@ -20,10 +20,10 @@
         <el-col :span="3">
           <el-select v-model="stockCode[2]" placeholder="股票2">
             <el-option
-                v-for="item in Object.keys(stockList)"
-                :key="item"
-                :label="stockList[item]"
-                :value="item">
+                v-for="item in stockList"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
             </el-option>
           </el-select>
         </el-col>
@@ -35,10 +35,10 @@
         <el-col :span="3">
           <el-select v-model="stockCode[3]" placeholder="股票3">
             <el-option
-                v-for="item in Object.keys(stockList)"
-                :key="item"
-                :label="stockList[item]"
-                :value="item">
+                v-for="item in stockList"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
             </el-option>
           </el-select>
         </el-col>
@@ -116,15 +116,7 @@ export default {
   data() {
     return {
       stockCode: {1: "", 2: "", 3: ""},
-      stockList: {
-        unknown: "==请选择==",
-        sz002463: "沪电股份",
-        sz002916: "深南电路",
-        sz002938: "鹏鼎控股",
-        sz002078: "太阳纸业",
-        sh603733: "仙鹤股份",
-        sz000488: "晨鸣纸业"
-      },
+      stockList: [{code: "000000", name: "请选择"}],
       dateList: ['12年', '13年', '14年', '15年', '16年', '17年', '18年', '19年'],
       stockData: [],
       roe: {1: [], 2: [], 3: []},
@@ -148,6 +140,15 @@ export default {
     this.grossMarginChart = this.$echarts.init(document.getElementById('gross-margin-chart'))
     this.kfNetProfitChart = this.$echarts.init(document.getElementById('kf-net-profit-chart'))
     this.totalOperatingIncomeChart = this.$echarts.init(document.getElementById('total-operating-income-chart'))
+
+    this.$http({
+      method: 'get',
+      url: 'http://81.68.206.52:7010/fr/stocks',
+    }).then(res => {
+      for (let data of res.data) {
+        this.stockList.push(data)
+      }
+    })
   },
   methods: {
     generateOption(chartName, data) {
@@ -179,44 +180,44 @@ export default {
         series: []
       };
 
-      if (this.stockList[this.stockCode[1]] !== undefined) {
-        option.legend.data.push(this.stockList[this.stockCode[1]])
+      if (this.stockCode[1] !== undefined && this.stockCode[1] !== '000000') {
+        option.legend.data.push(this.stockCode[1])
         option.series.push({
-          name: this.stockList[this.stockCode[1]],
+          name: this.stockCode[1],
           data: data[1],
           type: 'bar',
         })
 
         option.series.push({
-          name: this.stockList[this.stockCode[1]],
+          name: this.stockCode[1],
           data: data[1],
           type: 'line',
         })
       }
-      if (this.stockList[this.stockCode[2]] !== undefined) {
-        option.legend.data.push(this.stockList[this.stockCode[2]])
+      if (this.stockCode[2] !== undefined && this.stockCode[2] !== '000000') {
+        option.legend.data.push(this.stockCode[2])
         option.series.push({
-          name: this.stockList[this.stockCode[2]],
+          name: this.stockCode[2],
           data: data[2],
           type: 'bar',
         })
 
         option.series.push({
-          name: this.stockList[this.stockCode[2]],
+          name: this.stockCode[2],
           data: data[2],
           type: 'line',
         })
       }
-      if (this.stockList[this.stockCode[3]] !== undefined) {
-        option.legend.data.push(this.stockList[this.stockCode[3]])
+      if (this.stockCode[3] !== undefined && this.stockCode[3] !== '000000') {
+        option.legend.data.push(this.stockCode[3])
         option.series.push({
-          name: this.stockList[this.stockCode[3]],
+          name: this.stockCode[3],
           data: data[3],
           type: 'bar',
         })
 
         option.series.push({
-          name: this.stockList[this.stockCode[3]],
+          name: this.stockCode[3],
           data: data[3],
           type: 'line',
         })
@@ -243,7 +244,6 @@ export default {
         // url: 'http://localhost:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
         url: 'http://81.68.206.52:7010/fr?stocks=' + param
       }).then(res => {
-        console.log(res)
         const frData = res.data
         this.clearData()
 
