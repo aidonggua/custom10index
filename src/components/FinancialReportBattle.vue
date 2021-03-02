@@ -115,6 +115,7 @@ export default {
   name: "FinancialReportBattle",
   data() {
     return {
+      stockMap: {},
       stockCode: {1: "", 2: "", 3: ""},
       stockList: [{code: "000000", name: "请选择"}],
       dateList: ['12年', '13年', '14年', '15年', '16年', '17年', '18年', '19年'],
@@ -147,7 +148,10 @@ export default {
     }).then(res => {
       for (let data of res.data) {
         this.stockList.push(data)
+        this.stockMap[data.code] = data.name
       }
+
+      console.log(this.stockMap)
     })
   },
   methods: {
@@ -181,43 +185,43 @@ export default {
       };
 
       if (this.stockCode[1] !== undefined && this.stockCode[1] !== '000000') {
-        option.legend.data.push(this.stockCode[1])
+        option.legend.data.push(this.stockMap[this.stockCode[1]])
         option.series.push({
-          name: this.stockCode[1],
+          name: this.stockMap[this.stockCode[1]],
           data: data[1],
           type: 'bar',
         })
 
         option.series.push({
-          name: this.stockCode[1],
+          name: this.stockMap[this.stockCode[1]],
           data: data[1],
           type: 'line',
         })
       }
       if (this.stockCode[2] !== undefined && this.stockCode[2] !== '000000') {
-        option.legend.data.push(this.stockCode[2])
+        option.legend.data.push(this.stockMap[this.stockCode[2]])
         option.series.push({
-          name: this.stockCode[2],
+          name: this.stockMap[this.stockCode[2]],
           data: data[2],
           type: 'bar',
         })
 
         option.series.push({
-          name: this.stockCode[2],
+          name: this.stockMap[this.stockCode[2]],
           data: data[2],
           type: 'line',
         })
       }
       if (this.stockCode[3] !== undefined && this.stockCode[3] !== '000000') {
-        option.legend.data.push(this.stockCode[3])
+        option.legend.data.push(this.stockMap[this.stockCode[3]])
         option.series.push({
-          name: this.stockCode[3],
+          name: this.stockMap[this.stockCode[3]],
           data: data[3],
           type: 'bar',
         })
 
         option.series.push({
-          name: this.stockCode[3],
+          name: this.stockMap[this.stockCode[3]],
           data: data[3],
           type: 'line',
         })
