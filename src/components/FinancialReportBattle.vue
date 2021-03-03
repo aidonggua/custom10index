@@ -124,7 +124,7 @@ export default {
       eps: {1: [], 2: [], 3: []},
       totalOperatingIncome: {1: [], 2: [], 3: []},
       deductionOfNonNetProfit: {1: [], 2: [], 3: []},
-      grossProfit: {1: [], 2: [], 3: []},
+      grossProfitRate: {1: [], 2: [], 3: []},
       assetLiabilityRatio: {1: [], 2: [], 3: []},
       roeCmpChart: {},
       debtRatioChart: {},
@@ -257,7 +257,7 @@ export default {
           for (let item of stockFrDataList1.reverse()) {
             this.roe[1].push(item.roe)
             this.eps[1].push(item.eps)
-            this.grossProfit[1].push(item.gross_profit)
+            this.grossProfitRate[1].push(item.gross_profit_rate)
             this.assetLiabilityRatio[1].push(item.asset_liability_ratio)
             this.deductionOfNonNetProfit[1].push(item.deduction_of_non_net_profit)
             this.totalOperatingIncome[1].push(item.total_operating_income)
@@ -270,7 +270,7 @@ export default {
           for (let item of stockFrDataList2.reverse()) {
             this.roe[2].push(item.roe)
             this.eps[2].push(item.eps)
-            this.grossProfit[2].push(item.gross_profit)
+            this.grossProfitRate[2].push(item.gross_profit_rate)
             this.assetLiabilityRatio[2].push(item.asset_liability_ratio)
             this.deductionOfNonNetProfit[2].push(item.deduction_of_non_net_profit)
             this.totalOperatingIncome[2].push(item.total_operating_income)
@@ -283,7 +283,7 @@ export default {
           for (let item of stockFrDataList3.reverse()) {
             this.roe[3].push(item.roe)
             this.eps[3].push(item.eps)
-            this.grossProfit[3].push(item.gross_profit)
+            this.grossProfitRate[3].push(item.gross_profit_rate)
             this.assetLiabilityRatio[3].push(item.asset_liability_ratio)
             this.deductionOfNonNetProfit[3].push(item.deduction_of_non_net_profit)
             this.totalOperatingIncome[3].push(item.total_operating_income)
@@ -293,7 +293,7 @@ export default {
         this.roeCmpChart.setOption(this.generateOption('净资产收益率', this.roe))
         this.debtRatioChart.setOption(this.generateOption('负债率', this.assetLiabilityRatio))
         this.epsChart.setOption(this.generateOption('每股收益', this.eps))
-        this.grossMarginChart.setOption(this.generateOption('毛利率', this.grossProfit))
+        this.grossMarginChart.setOption(this.generateOption('毛利率', this.grossProfitRate))
         this.kfNetProfitChart.setOption(this.generateOption('扣非净利润', this.deductionOfNonNetProfit))
         this.totalOperatingIncomeChart.setOption(this.generateOption('营业总收入', this.totalOperatingIncome))
       });
@@ -303,7 +303,7 @@ export default {
         array.push({
           roe: 0,
           eps: 0,
-          gross_profit: 0,
+          gross_profit_rate: 0,
           asset_liability_ratio: 0,
           deduction_of_non_net_profit: 0,
           total_operating_income: 0
@@ -313,7 +313,7 @@ export default {
     clearData() {
       this.roe = {1: [], 2: [], 3: []}
       this.eps = {1: [], 2: [], 3: []}
-      this.grossProfit = {1: [], 2: [], 3: []}
+      this.grossProfitRate = {1: [], 2: [], 3: []}
       this.assetLiabilityRatio = {1: [], 2: [], 3: []}
       this.deductionOfNonNetProfit = {1: [], 2: [], 3: []}
       this.totalOperatingIncome = {1: [], 2: [], 3: []}
