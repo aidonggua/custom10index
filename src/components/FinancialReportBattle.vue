@@ -88,6 +88,27 @@
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
+            <div id="total-operating-income-chart" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="kf-net-profit-chart" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="currency-chart" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
             <div id="debt-ratio-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
@@ -102,21 +123,21 @@
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="kf-net-profit-chart" style="width: 90%;height:300px;"></div>
+            <div id="short-term-loan-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="total-operating-income-chart" style="width: 90%;height:300px;"></div>
+            <div id="accounts-bills-payable-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="currency-chart" style="width: 90%;height:300px;"></div>
+            <div id="accounts-bills-receivable-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
@@ -150,6 +171,9 @@ export default {
       currentLiabilitiesRatio: {1: [], 2: [], 3: []},
       currency: {1: [], 2: [], 3: []},
       goodwill: {1: [], 2: [], 3: []},
+      shortTermLoan: {1: [], 2: [], 3: []},
+      accountsBillsPayable: {1: [], 2: [], 3: []},
+      accountsBillsReceivable: {1: [], 2: [], 3: []},
       roeCmpChart: {},
       debtRatioChart: {},
       epsChart: {},
@@ -158,7 +182,10 @@ export default {
       totalOperatingIncomeChart: {},
       currentLiabilitiesRatioChart: {},
       currencyChart: {},
-      goodwillChart: {}
+      goodwillChart: {},
+      shortTermLoanChart: {},
+      accountsBillsPayableChart: {},
+      accountsBillsReceivableChart: {}
     }
   },
   mounted() {
@@ -171,6 +198,9 @@ export default {
     this.currentLiabilitiesRatioChart = this.$echarts.init(document.getElementById('current-liabilities-ratio-chart'))
     this.currencyChart = this.$echarts.init(document.getElementById('currency-chart'))
     this.goodwillChart = this.$echarts.init(document.getElementById('goodwill-chart'))
+    this.shortTermLoanChart = this.$echarts.init(document.getElementById('short-term-loan-chart'))
+    this.accountsBillsPayableChart = this.$echarts.init(document.getElementById('accounts-bills-payable-chart'))
+    this.accountsBillsReceivableChart = this.$echarts.init(document.getElementById('accounts-bills-receivable-chart'))
 
     this.$http({
       method: 'get',
@@ -294,6 +324,9 @@ export default {
             this.currentLiabilitiesRatio[1].push(item.current_liabilities_ratio)
             this.currency[1].push(item.currency)
             this.goodwill[1].push(item.goodwill)
+            this.shortTermLoan[1].push(item.short_term_loan)
+            this.accountsBillsPayable[1].push(item.accounts_bills_payable)
+            this.accountsBillsReceivable[1].push(item.accounts_bills_receivable)
           }
         }
 
@@ -310,6 +343,9 @@ export default {
             this.currentLiabilitiesRatio[2].push(item.current_liabilities_ratio)
             this.currency[2].push(item.currency)
             this.goodwill[2].push(item.goodwill)
+            this.shortTermLoan[2].push(item.short_term_loan)
+            this.accountsBillsPayable[2].push(item.accounts_bills_payable)
+            this.accountsBillsReceivable[2].push(item.accounts_bills_receivable)
           }
         }
 
@@ -326,6 +362,9 @@ export default {
             this.currentLiabilitiesRatio[3].push(item.current_liabilities_ratio)
             this.currency[3].push(item.currency)
             this.goodwill[3].push(item.goodwill)
+            this.shortTermLoan[3].push(item.short_term_loan)
+            this.accountsBillsPayable[3].push(item.accounts_bills_payable)
+            this.accountsBillsReceivable[3].push(item.accounts_bills_receivable)
           }
         }
 
@@ -338,6 +377,9 @@ export default {
         this.currentLiabilitiesRatioChart.setOption(this.generateOption('流动负债/总负责', this.currentLiabilitiesRatio))
         this.currencyChart.setOption(this.generateOption('货币资金', this.currency))
         this.goodwillChart.setOption(this.generateOption('商誉', this.goodwill))
+        this.shortTermLoanChart.setOption(this.generateOption('短期借款', this.shortTermLoan))
+        this.accountsBillsPayableChart.setOption(this.generateOption('应付账款和票据', this.accountsBillsPayable))
+        this.accountsBillsReceivableChart.setOption(this.generateOption('应收账款和票据', this.accountsBillsReceivable))
       });
     },
     appendData(array) {
@@ -352,6 +394,9 @@ export default {
           current_liabilities_ratio: 0,
           currency: 0,
           goodwill: 0,
+          short_term_loan: 0,
+          accounts_bills_payable: 0,
+          accounts_bills_receivable: 0
         })
       }
     },
@@ -365,6 +410,9 @@ export default {
       this.currentLiabilitiesRatio = {1: [], 2: [], 3: []}
       this.currency = {1: [], 2: [], 3: []}
       this.goodwill = {1: [], 2: [], 3: []}
+      this.shortTermLoan = {1: [], 2: [], 3: []}
+      this.accountsBillsPayable = {1: [], 2: [], 3: []}
+      this.accountsBillsReceivable = {1: [], 2: [], 3: []}
     }
   }
 }
