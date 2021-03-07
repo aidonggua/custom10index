@@ -305,8 +305,8 @@ export default {
 
       this.$http({
         method: 'get',
-        // url: 'http://81.68.206.52:7010/fr?stocks=' + param
-        url: 'http://localhost:7010/fr?stocks=' + param
+        url: 'http://81.68.206.52:7010/fr?stocks=' + param
+        // url: 'http://localhost:7010/fr?stocks=' + param
       }).then(res => {
         const frData = res.data
         this.clearData()
