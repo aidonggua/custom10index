@@ -81,6 +81,13 @@
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
+            <div id="gross-margin-chart" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
             <div id="debt-ratio-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
@@ -88,7 +95,7 @@
       <el-col :span="8">
         <el-card>
           <div class="Echarts">
-            <div id="gross-margin-chart" style="width: 90%;height:300px;"></div>
+            <div id="current-liabilities-ratio-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
@@ -103,6 +110,20 @@
         <el-card>
           <div class="Echarts">
             <div id="total-operating-income-chart" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="currency-chart" style="width: 90%;height:300px;"></div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <div class="Echarts">
+            <div id="goodwill-chart" style="width: 90%;height:300px;"></div>
           </div>
         </el-card>
       </el-col>
@@ -126,12 +147,18 @@ export default {
       deductionOfNonNetProfit: {1: [], 2: [], 3: []},
       grossProfitRate: {1: [], 2: [], 3: []},
       assetLiabilityRatio: {1: [], 2: [], 3: []},
+      currentLiabilitiesRatio: {1: [], 2: [], 3: []},
+      currency: {1: [], 2: [], 3: []},
+      goodwill: {1: [], 2: [], 3: []},
       roeCmpChart: {},
       debtRatioChart: {},
       epsChart: {},
       grossMarginChart: {},
       kfNetProfitChart: {},
-      totalOperatingIncomeChart: {}
+      totalOperatingIncomeChart: {},
+      currentLiabilitiesRatioChart: {},
+      currencyChart: {},
+      goodwillChart: {}
     }
   },
   mounted() {
@@ -141,6 +168,9 @@ export default {
     this.grossMarginChart = this.$echarts.init(document.getElementById('gross-margin-chart'))
     this.kfNetProfitChart = this.$echarts.init(document.getElementById('kf-net-profit-chart'))
     this.totalOperatingIncomeChart = this.$echarts.init(document.getElementById('total-operating-income-chart'))
+    this.currentLiabilitiesRatioChart = this.$echarts.init(document.getElementById('current-liabilities-ratio-chart'))
+    this.currencyChart = this.$echarts.init(document.getElementById('currency-chart'))
+    this.goodwillChart = this.$echarts.init(document.getElementById('goodwill-chart'))
 
     this.$http({
       method: 'get',
@@ -245,8 +275,8 @@ export default {
 
       this.$http({
         method: 'get',
-        // url: 'http://localhost:7010/fr?stocks=' + this.stockLeft + ',' + this.stockRight
-        url: 'http://81.68.206.52:7010/fr?stocks=' + param
+        // url: 'http://81.68.206.52:7010/fr?stocks=' + param
+        url: 'http://localhost:7010/fr?stocks=' + param
       }).then(res => {
         const frData = res.data
         this.clearData()
@@ -261,6 +291,9 @@ export default {
             this.assetLiabilityRatio[1].push(item.asset_liability_ratio)
             this.deductionOfNonNetProfit[1].push(item.deduction_of_non_net_profit)
             this.totalOperatingIncome[1].push(item.total_operating_income)
+            this.currentLiabilitiesRatio[1].push(item.current_liabilities_ratio)
+            this.currency[1].push(item.currency)
+            this.goodwill[1].push(item.goodwill)
           }
         }
 
@@ -274,6 +307,9 @@ export default {
             this.assetLiabilityRatio[2].push(item.asset_liability_ratio)
             this.deductionOfNonNetProfit[2].push(item.deduction_of_non_net_profit)
             this.totalOperatingIncome[2].push(item.total_operating_income)
+            this.currentLiabilitiesRatio[2].push(item.current_liabilities_ratio)
+            this.currency[2].push(item.currency)
+            this.goodwill[2].push(item.goodwill)
           }
         }
 
@@ -287,6 +323,9 @@ export default {
             this.assetLiabilityRatio[3].push(item.asset_liability_ratio)
             this.deductionOfNonNetProfit[3].push(item.deduction_of_non_net_profit)
             this.totalOperatingIncome[3].push(item.total_operating_income)
+            this.currentLiabilitiesRatio[3].push(item.current_liabilities_ratio)
+            this.currency[3].push(item.currency)
+            this.goodwill[3].push(item.goodwill)
           }
         }
 
@@ -296,6 +335,9 @@ export default {
         this.grossMarginChart.setOption(this.generateOption('毛利率', this.grossProfitRate))
         this.kfNetProfitChart.setOption(this.generateOption('扣非净利润', this.deductionOfNonNetProfit))
         this.totalOperatingIncomeChart.setOption(this.generateOption('营业总收入', this.totalOperatingIncome))
+        this.currentLiabilitiesRatioChart.setOption(this.generateOption('流动负债/总负责', this.currentLiabilitiesRatio))
+        this.currencyChart.setOption(this.generateOption('货币资金', this.currency))
+        this.goodwillChart.setOption(this.generateOption('商誉', this.goodwill))
       });
     },
     appendData(array) {
@@ -306,7 +348,10 @@ export default {
           gross_profit_rate: 0,
           asset_liability_ratio: 0,
           deduction_of_non_net_profit: 0,
-          total_operating_income: 0
+          total_operating_income: 0,
+          current_liabilities_ratio: 0,
+          currency: 0,
+          goodwill: 0,
         })
       }
     },
@@ -317,6 +362,9 @@ export default {
       this.assetLiabilityRatio = {1: [], 2: [], 3: []}
       this.deductionOfNonNetProfit = {1: [], 2: [], 3: []}
       this.totalOperatingIncome = {1: [], 2: [], 3: []}
+      this.currentLiabilitiesRatio = {1: [], 2: [], 3: []}
+      this.currency = {1: [], 2: [], 3: []}
+      this.goodwill = {1: [], 2: [], 3: []}
     }
   }
 }
