@@ -153,6 +153,7 @@
 </template>
 
 <script>
+
 export default {
   name: "FinancialReportBattle",
   data() {
@@ -380,6 +381,9 @@ export default {
         this.shortTermLoanChart.setOption(this.generateOption('短期借款', this.shortTermLoan))
         this.accountsBillsPayableChart.setOption(this.generateOption('应付账款和票据', this.accountsBillsPayable))
         this.accountsBillsReceivableChart.setOption(this.generateOption('应收账款和票据', this.accountsBillsReceivable))
+        this.$echarts.connect([this.debtRatioChart, this.epsChart, this.roeCmpChart,
+          this.grossMarginChart, this.kfNetProfitChart, this.totalOperatingIncomeChart, this.currentLiabilitiesRatioChart,
+          this.currencyChart, this.goodwillChart, this.shortTermLoanChart, this.accountsBillsReceivableChart, this.accountsBillsPayableChart])
       });
     },
     appendData(array) {
