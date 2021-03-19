@@ -3,6 +3,16 @@
     <div class="search-card">
       <el-row>
         <el-col :span="3">
+          <el-select v-model="bk" placeholder="板块">
+            <el-option
+                v-for="item in bk"
+                :key="item"
+                :label="item"
+                :value="item">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3">
           <el-select v-model="stockCode[1]" placeholder="股票1">
             <el-option
                 v-for="item in stockList"
@@ -158,6 +168,7 @@ export default {
   name: "FinancialReportBattle",
   data() {
     return {
+      bk: [],
       stockMap: {},
       stockCode: {1: "", 2: "", 3: ""},
       stockList: [{code: "000000", name: "请选择"}],
@@ -208,6 +219,18 @@ export default {
       url: 'http://81.68.206.52:7010/fr/stocks',
     }).then(res => {
       for (let data of res.data) {
+        this.stockList.push(data)
+        this.stockMap[data.code] = data.name
+      }
+
+      console.log(this.stockMap)
+    })
+
+    this.$http({
+      method: 'get',
+      url: 'http://localhost:7010/finance/finance-report/groups',
+    }).then(res => {
+      for (let data of res.data.data) {
         this.stockList.push(data)
         this.stockMap[data.code] = data.name
       }
