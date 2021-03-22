@@ -2,21 +2,21 @@
   <div>
     <div class="search-card">
       <el-row>
-        <el-col :span="3">
-          <el-select v-model="bk" placeholder="板块">
+        <el-col :span="4">
+          <el-select v-model="currentGroup" placeholder="板块">
             <el-option
-                v-for="item in bk"
+                v-for="item in groups"
                 :key="item"
                 :label="item"
                 :value="item">
             </el-option>
           </el-select>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="3" :offset="1">
           <el-select v-model="stockCode[1]" placeholder="股票1">
             <el-option
-                v-for="item in stockList"
-                :key="item.code"
+                v-for="(item,index) in stockList"
+                :key="index"
                 :label="item.name"
                 :value="item.code">
             </el-option>
@@ -30,8 +30,8 @@
         <el-col :span="3">
           <el-select v-model="stockCode[2]" placeholder="股票2">
             <el-option
-                v-for="item in stockList"
-                :key="item.code"
+                v-for="(item,index) in stockList"
+                :key="index"
                 :label="item.name"
                 :value="item.code">
             </el-option>
@@ -45,8 +45,8 @@
         <el-col :span="3">
           <el-select v-model="stockCode[3]" placeholder="股票3">
             <el-option
-                v-for="item in stockList"
-                :key="item.code"
+                v-for="(item,index) in stockList"
+                :key="index"
                 :label="item.name"
                 :value="item.code">
             </el-option>
@@ -168,7 +168,8 @@ export default {
   name: "FinancialReportBattle",
   data() {
     return {
-      bk: [],
+      currentGroup: "",
+      groups: [],
       stockMap: {},
       stockCode: {1: "", 2: "", 3: ""},
       stockList: [{code: "000000", name: "请选择"}],
@@ -214,31 +215,41 @@ export default {
     this.accountsBillsPayableChart = this.$echarts.init(document.getElementById('accounts-bills-payable-chart'))
     this.accountsBillsReceivableChart = this.$echarts.init(document.getElementById('accounts-bills-receivable-chart'))
 
-    this.$http({
-      method: 'get',
-      url: 'http://81.68.206.52:7010/fr/stocks',
-    }).then(res => {
-      for (let data of res.data) {
-        this.stockList.push(data)
-        this.stockMap[data.code] = data.name
-      }
 
-      console.log(this.stockMap)
-    })
+    this.loadStock()
 
     this.$http({
       method: 'get',
-      url: 'http://localhost:7010/finance/finance-report/groups',
+      url: 'http://81.68.206.52:7020/finance/finance-report/groups',
     }).then(res => {
-      for (let data of res.data.data) {
-        this.stockList.push(data)
-        this.stockMap[data.code] = data.name
-      }
-
-      console.log(this.stockMap)
+      this.groups = res.data.data
     })
   },
+  watch: {
+    currentGroup() {
+      this.loadStock()
+    }
+  },
   methods: {
+    loadStock() {
+      this.$http({
+        method: 'get',
+        url: 'http://81.68.206.52:7020/finance/finance-report/code-names?group=' + this.currentGroup,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        }
+      }).then(res => {
+        this.stockList = [{code: "000000", name: "请选择"}]
+        this.stockMap = {}
+        this.stockCode[1] = ""
+        this.stockCode[2] = ""
+        this.stockCode[3] = ""
+        for (let data of res.data.data) {
+          this.stockList.push(data)
+          this.stockMap[data.code] = data.name
+        }
+      })
+    },
     generateOption(chartName, data) {
       // 指定图表的配置项和数据
       let option = {
